@@ -1,5 +1,6 @@
 package com.ms.sittingclient
 
+import com.ms.sittingclient.main_window.MainWindowView
 import javafx.application.Application
 import org.springframework.boot.SpringApplication
 import org.springframework.boot.autoconfigure.SpringBootApplication
@@ -7,7 +8,7 @@ import tornadofx.*
 import kotlin.reflect.KClass
 
 @SpringBootApplication
-class MyApp : App(MainView::class) {
+class MyApp : App(MainWindowView::class) {
     override fun init() {
         super.init()
         val applicationContext = SpringApplication.run(MyApp::class.java)

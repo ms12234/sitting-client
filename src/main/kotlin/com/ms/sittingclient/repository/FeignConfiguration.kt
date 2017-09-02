@@ -11,8 +11,8 @@ import org.springframework.context.annotation.Configuration
 class FeignConfiguration {
 
     @Bean
-    fun getRepository() {
-        Feign.builder()
+    fun getRepository(): MeasurementRepository {
+        return Feign.builder()
                 .encoder(GsonEncoder())
                 .decoder(GsonDecoder())
                 .logger(Logger.JavaLogger())
