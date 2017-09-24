@@ -8,7 +8,7 @@ import tornadofx.*
 import kotlin.reflect.KClass
 
 @SpringBootApplication
-class MyApp : App(MainWindowView::class) {
+class MyApp : App(MainWindowView::class, MyStyle::class) {
     override fun init() {
         super.init()
         val applicationContext = SpringApplication.run(MyApp::class.java)

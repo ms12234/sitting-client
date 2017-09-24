@@ -1,5 +1,6 @@
 package com.ms.sittingclient.settings_window
 
+import com.ms.sittingclient.MyStyle
 import com.ms.sittingclient.SettingsChangedEvent
 import javafx.scene.control.Alert
 import javafx.scene.control.TextField
@@ -17,17 +18,22 @@ class SettingsWindowView : View("Ustawienia przerw") {
         gridpane {
             row {
                 label("Długość przerwy")
-                breakMinutesTextField = textfield(controller.breakMinutes)
-                breakMinutesTextField.textProperty().addListener({ _, oldValue, newValue ->
-                    checkTextField(breakMinutesTextField, newValue, oldValue)
-                })
-                label("min")
 
-                breakSecondsTextField = textfield(controller.breakSeconds)
-                breakSecondsTextField.textProperty().addListener({ _, oldValue, newValue ->
-                    checkTextField(breakSecondsTextField, newValue, oldValue)
-                })
-                label("sek")
+                hbox {
+                    breakMinutesTextField = textfield(controller.breakMinutes)
+                    breakMinutesTextField.textProperty().addListener({ _, oldValue, newValue ->
+                        checkTextField(breakMinutesTextField, newValue, oldValue)
+                    })
+                    label("min")
+                }
+
+                hbox {
+                    breakSecondsTextField = textfield(controller.breakSeconds)
+                    breakSecondsTextField.textProperty().addListener({ _, oldValue, newValue ->
+                        checkTextField(breakSecondsTextField, newValue, oldValue)
+                    })
+                    label("sek")
+                }
             }
 
             row {
@@ -44,6 +50,11 @@ class SettingsWindowView : View("Ustawienia przerw") {
                 })
                 label("sek")
             }
+
+            style {
+                addClass(MyStyle.default)
+                addClass(MyStyle.gridSpace)
+            }
         }
 
         hbox {
@@ -51,6 +62,7 @@ class SettingsWindowView : View("Ustawienia przerw") {
                 action {
                     close()
                 }
+                style = "jfx-button"
             }
 
             button("Zapisz") {
@@ -69,7 +81,7 @@ class SettingsWindowView : View("Ustawienia przerw") {
     private fun checkTextField(textField: TextField, newValue: String, oldValue: String) {
         try {
             val value = newValue.toInt()
-            if (value < 1) {
+            if (value < 1 || value > 60) {
                 textField.text = oldValue
                 showErrorDialog()
             }
