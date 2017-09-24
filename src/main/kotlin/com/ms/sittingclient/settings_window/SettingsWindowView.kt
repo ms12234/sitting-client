@@ -20,49 +20,77 @@ class SettingsWindowView : View("Ustawienia przerw") {
                 label("Długość przerwy")
 
                 hbox {
-                    breakMinutesTextField = textfield(controller.breakMinutes)
+                    breakMinutesTextField = textfield(controller.breakMinutes) {
+                        addClass(MyStyle.settingInput)
+                    }
                     breakMinutesTextField.textProperty().addListener({ _, oldValue, newValue ->
-                        checkTextField(breakMinutesTextField, newValue, oldValue)
+                        checkTextField(breakMinutesTextField, newValue,
+                                oldValue, false)
                     })
-                    label("min")
+                    label("min") {
+                        addClass(MyStyle.settingsUnit)
+                    }
                 }
 
                 hbox {
-                    breakSecondsTextField = textfield(controller.breakSeconds)
+                    breakSecondsTextField = textfield(controller.breakSeconds) {
+                        addClass(MyStyle.settingInput)
+                    }
                     breakSecondsTextField.textProperty().addListener({ _, oldValue, newValue ->
-                        checkTextField(breakSecondsTextField, newValue, oldValue)
+                        checkTextField(breakSecondsTextField, newValue,
+                                oldValue, true)
                     })
-                    label("sek")
+                    label("sek") {
+                        addClass(MyStyle.settingsUnit)
+                    }
                 }
             }
 
             row {
-                label("Długość przerwy")
-                workMinutesTextField = textfield(controller.workMinutes)
-                workMinutesTextField.textProperty().addListener({ _, oldValue, newValue ->
-                    checkTextField(workMinutesTextField, newValue, oldValue)
-                })
-                label("min")
+                label("Długość pracy")
 
-                workSecondsTextField = textfield(controller.workSeconds)
-                workSecondsTextField.textProperty().addListener({ _, oldValue, newValue ->
-                    checkTextField(workSecondsTextField, newValue, oldValue)
-                })
-                label("sek")
+                hbox {
+                    workMinutesTextField = textfield(controller.workMinutes) {
+                        addClass(MyStyle.settingInput)
+                    }
+                    workMinutesTextField.textProperty().addListener({ _, oldValue, newValue ->
+                        checkTextField(workMinutesTextField, newValue, oldValue, false)
+                    })
+                    label("min") {
+                        addClass(MyStyle.settingsUnit)
+                    }
+                }
+
+                hbox {
+                    workSecondsTextField = textfield(controller.workSeconds) {
+                        addClass(MyStyle.settingInput)
+                    }
+                    workSecondsTextField.textProperty().addListener({ _, oldValue, newValue ->
+                        checkTextField(workSecondsTextField, newValue,
+                                oldValue, true)
+                    })
+                    label("sek") {
+                        addClass(MyStyle.settingsUnit)
+                    }
+                }
             }
 
             style {
-                addClass(MyStyle.default)
                 addClass(MyStyle.gridSpace)
             }
         }
 
         hbox {
+            style {
+                padding = box(40.px, 0.px, 0.px, 30.px)
+            }
+
             button("Anuluj") {
                 action {
                     close()
                 }
-                style = "jfx-button"
+
+                addClass(MyStyle.settingsButton)
             }
 
             button("Zapisz") {
@@ -74,14 +102,26 @@ class SettingsWindowView : View("Ustawienia przerw") {
                         close()
                     }
                 }
+
+                addClass(MyStyle.settingsButton)
             }
+        }
+
+        style {
+            addClass(MyStyle.default)
         }
     }
 
-    private fun checkTextField(textField: TextField, newValue: String, oldValue: String) {
+    private fun checkTextField(textField: TextField, newValue: String, oldValue: String,
+                               allowZero: Boolean) {
         try {
             val value = newValue.toInt()
-            if (value < 1 || value > 60) {
+            if (value < 0 || value > 60) {
+                textField.text = oldValue
+                showErrorDialog()
+            }
+
+            if (!allowZero && value == 0) {
                 textField.text = oldValue
                 showErrorDialog()
             }
@@ -95,7 +135,8 @@ class SettingsWindowView : View("Ustawienia przerw") {
         val dialog = Alert(Alert.AlertType.ERROR)
         dialog.title = "Niepoprawna wartość"
         dialog.headerText = "Wpisany znak był niepoprawny"
-        dialog.contentText = "Dopuszczalne są jedynie cyfry"
+        dialog.contentText = "Dopuszczalne są jedynie cyfry w zakresie (0" +
+                "(dla sekund), oraz 1(dla minut)-60)"
         dialog.showAndWait()
     }
 
