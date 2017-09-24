@@ -1,5 +1,6 @@
 package com.ms.sittingclient.main_window
 
+import com.ms.sittingclient.MyStyle
 import com.ms.sittingclient.repository.Measurement
 import com.ms.sittingclient.repository.MeasurementRepository
 import com.ms.sittingclient.settings_window.SettingsWindowView
@@ -43,6 +44,10 @@ class MainWindowView : View("Podsumowanie"), MeasurementObserver {
                     SettingsWindowView().openModal()
                 }
             }
+        }
+
+        style {
+            addClass(MyStyle.default)
         }
     }
 

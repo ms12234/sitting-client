@@ -12,7 +12,7 @@ class MyStyle : Stylesheet() {
     }
 
     init {
-        val defaultFontSize = 17.px
+        val defaultFontSize = 16.px
 
         default {
             padding = box(30.px)
@@ -31,10 +31,11 @@ class MyStyle : Stylesheet() {
         settingsButton {
             fontSize = defaultFontSize
             minWidth = 150.px
+            minHeight = 30.px
         }
 
         settingsUnit {
-            padding = box(5.px, 0.px, 0.px, 0.px)
+            padding = box(6.px, 0.px, 0.px, 0.px)
         }
     }
 }
