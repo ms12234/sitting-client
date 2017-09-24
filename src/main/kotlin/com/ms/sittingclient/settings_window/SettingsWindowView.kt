@@ -15,49 +15,59 @@ class SettingsWindowView : View("Ustawienia przerw") {
         gridpane {
             row {
                 label("Długość przerwy")
-                breakMinutesTextField = textfield()
+                breakMinutesTextField = textfield(controller.breakMinutes)
+                breakMinutesTextField.textProperty().addListener({ observable, oldValue, newValue ->
+                    //TODO
+                })
                 label("min")
-                breakSecondsTextField = textfield()
+
+                breakSecondsTextField = textfield(controller.breakSeconds)
+                breakSecondsTextField.textProperty().addListener({ observable, oldValue, newValue ->
+                    //TODO
+                })
                 label("sek")
             }
 
             row {
                 label("Długość przerwy (0-99)")
-                workMinutesTextField = textfield()
+                workMinutesTextField = textfield(controller.workMinutes)
+                workMinutesTextField.textProperty().addListener({ observable, oldValue, newValue ->
+                    //TODO
+                })
                 label("min")
-                workSecondsTextField = textfield()
+
+                workSecondsTextField = textfield(controller.workSeconds)
+                workSecondsTextField.textProperty().addListener({ observable, oldValue, newValue ->
+                    //TODO
+                })
                 label("sek")
             }
         }
 
         hbox {
-            button("Zapisz") {
+            button("Anuluj") {
                 action {
-                    breakMinutesTextField.commitValue()
-                    breakSecondsTextField.commitValue()
-                    workMinutesTextField.commitValue()
-                    workSecondsTextField.commitValue()
                     close()
                 }
             }
 
-            button("Anuluj") {
+            button("Zapisz") {
                 action {
-                    breakMinutesTextField.cancelEdit()
-                    breakSecondsTextField.cancelEdit()
-                    workMinutesTextField.cancelEdit()
-                    workSecondsTextField.cancelEdit()
+                    runAsync {
+                        controller.saveToFile()
+                    } ui {
+                        close()
+                    }
                 }
             }
         }
     }
 
     init {
-        controller.loadFromFile()
-
-        breakMinutesTextField.bind(controller.breakMinutes)
-        breakSecondsTextField.bind(controller.breakSeconds)
-        workMinutesTextField.bind(controller.workMinutes)
-        workSecondsTextField.bind(controller.workSeconds)
+        runAsync {
+            controller.readSettings()
+        } ui {
+            controller.assignValues(it)
+        }
     }
 }

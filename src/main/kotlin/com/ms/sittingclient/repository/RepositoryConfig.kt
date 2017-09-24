@@ -7,7 +7,7 @@ import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 
 @Configuration
-open class Config {
+open class RepositoryConfig {
 
     @Bean
     fun getExecutorService(): ExecutorService {

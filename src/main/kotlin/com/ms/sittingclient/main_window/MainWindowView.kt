@@ -40,8 +40,7 @@ class MainWindowView : View("Podsumowanie"), MeasurementObserver {
 
             button("Ustawienia") {
                 action {
-                    find<SettingsWindowView>().openModal()
-                    //TODO reload breaks
+                    SettingsWindowView().openModal()
                 }
             }
         }
