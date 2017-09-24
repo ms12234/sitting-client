@@ -135,8 +135,7 @@ class SettingsWindowView : View("Ustawienia przerw") {
         val dialog = Alert(Alert.AlertType.ERROR)
         dialog.title = "Niepoprawna wartość"
         dialog.headerText = "Wpisany znak był niepoprawny"
-        dialog.contentText = "Dopuszczalne są jedynie cyfry w zakresie (0" +
-                "(dla sekund), oraz 1(dla minut)-60)"
+        dialog.contentText = "Dopuszczalne są jedynie cyfry"
         dialog.showAndWait()
     }
 
