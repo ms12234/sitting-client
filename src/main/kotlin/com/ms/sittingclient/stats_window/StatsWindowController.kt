@@ -1,22 +1,16 @@
 package com.ms.sittingclient.stats_window
 
+import javafx.scene.chart.BarChart
 import org.springframework.stereotype.Component
 import tornadofx.*
+import java.time.LocalDateTime
 
 @Component
-class StatsWindowController : Controller() {
-    fun downloadData(): List<Int> {
+class StatsWindowController(val graphs: Graphs) : Controller() {
 
-        return emptyList()
-    }
+    fun showGraphDailySitting(dateTimeValue: BarChart<String, Number>,
+                              dateTimeValue1: LocalDateTime, dateTimeValue2: LocalDateTime) {
 
-    fun graphs(): List<String> {
-        runAsync {
 
-        } ui {
-
-        }
-
-        return emptyList()
     }
 }
