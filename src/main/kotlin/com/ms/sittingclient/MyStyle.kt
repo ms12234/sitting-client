@@ -9,6 +9,7 @@ class MyStyle : Stylesheet() {
         val settingInput by cssclass()
         val settingsButton by cssclass()
         val settingsUnit by cssclass()
+        val heatMapRectangle by cssclass()
     }
 
     init {
@@ -37,6 +38,12 @@ class MyStyle : Stylesheet() {
 
         settingsUnit {
             padding = box(6.px, 0.px, 0.px, 0.px)
+        }
+
+        heatMapRectangle {
+            minWidth = 60.px
+            minHeight = 60.px
+            backgroundColor += c(120, 100, 100, 1.0)
         }
     }
 }
