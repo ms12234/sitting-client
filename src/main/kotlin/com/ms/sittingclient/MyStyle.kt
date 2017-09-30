@@ -41,8 +41,6 @@ class MyStyle : Stylesheet() {
         }
 
         heatMapRectangle {
-            minWidth = 60.px
-            minHeight = 60.px
             backgroundColor += c(120, 100, 100, 1.0)
         }
     }
