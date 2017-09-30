@@ -2,11 +2,14 @@ package com.ms.sittingclient.stats_window
 
 import com.ms.sittingclient.repository.MeasurementRepository
 import javafx.concurrent.Task
+import javafx.scene.paint.Paint
 import java.time.LocalDateTime
 
-class HeatMapDataDownload(dateTimeValue: LocalDateTime, dateTimeValue1: LocalDateTime, measurementRepository: MeasurementRepository) : Task<List<Double>>() {
+class HeatMapDataDownload(start: LocalDateTime, end: LocalDateTime,
+                          measurementRepository: MeasurementRepository) :
+        Task<List<Paint>>() {
 
-    override fun call(): List<Double> {
+    override fun call(): List<Paint> {
         return emptyList()
     }
 }

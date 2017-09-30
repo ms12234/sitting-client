@@ -11,6 +11,7 @@ import javafx.scene.control.TabPane
 import javafx.scene.layout.HBox
 import javafx.scene.layout.VBox
 import javafx.scene.paint.Color
+import javafx.scene.paint.Paint
 import javafx.scene.shape.Rectangle
 import tornadofx.*
 import tornadofx.control.DateTimePicker
@@ -34,7 +35,7 @@ class StatsWindowView : View("Statystki") {
     private var okToNotOkSittingGraph: PieChart by singleAssign()
     private lateinit var okToNotOkSittingDataDownload: Task<ObservableList<PieChart.Data>>
 
-    private lateinit var heatMapDataDownload: Task<List<Double>>
+    private lateinit var heatMapDataDownload: Task<List<Paint>>
 
     private var heatMapTop0: Rectangle by singleAssign()
     private var heatMapTop1: Rectangle by singleAssign()
@@ -70,7 +71,9 @@ class StatsWindowView : View("Statystki") {
             }
         }
 
-        progress = progressbar { }
+        progress = progressbar(100.0) {
+            visibleProperty().bind(progressProperty().isNotEqualTo(100))
+        }
 
         graphParent = tabpane {
             tabClosingPolicy = TabPane.TabClosingPolicy.UNAVAILABLE
@@ -90,15 +93,8 @@ class StatsWindowView : View("Statystki") {
 
             tab("Stosunek poprawnego siedzenia do niepoprawnego") {
                 content = HBox().apply {
-
                     okToNotOkSittingGraph = piechart("", FXCollections
-                            .observableArrayList()) {
-                        data("Windows", 77.62)
-                        data("OS X", 9.52)
-                        data("Other", 3.06)
-                        data("Linux", 1.55)
-                        data("Chrome OS", 0.55)
-                    }
+                            .observableArrayList())
                 }
             }
 
@@ -228,8 +224,18 @@ class StatsWindowView : View("Statystki") {
         }
     }
 
-    private fun updateHeatMapGraph(data: List<Double>) {
-        //TODO
+    private fun updateHeatMapGraph(data: List<Paint>) {
+        heatMapTop0.fill = data[0]
+        heatMapTop1.fill = data[1]
+        heatMapTop2.fill = data[2]
+
+        heatMapMiddle0.fill = data[3]
+        heatMapMiddle1.fill = data[4]
+        heatMapMiddle2.fill = data[5]
+
+        heatMapBottom0.fill = data[6]
+        heatMapBottom1.fill = data[7]
+        heatMapBottom2.fill = data[8]
     }
 
     private fun downloadDataForOkToNotOkSittingGraph() {
@@ -251,7 +257,7 @@ class StatsWindowView : View("Statystki") {
     }
 
     private fun updateOkToNotOkSittingGraph(data: ObservableList<PieChart.Data>) {
-        //TODO
+        okToNotOkSittingGraph.data = data
     }
 
     private fun downloadDataForBreakToSittingGraph() {
@@ -273,9 +279,7 @@ class StatsWindowView : View("Statystki") {
     }
 
     private fun updateBreakToSittingGraph(data: ObservableList<PieChart.Data>) {
-        //TODO
-        breakToSittingGraph.data = breakToSittingDataDownload.get()
-
+        breakToSittingGraph.data = data
     }
 
     private fun downloadDataForDailySittingGraph() {
@@ -297,6 +301,6 @@ class StatsWindowView : View("Statystki") {
     }
 
     private fun updateDailySittingGraph(data: ObservableList<XYChart.Series<String, Number>>) {
-        //TODO
+        dailySittingGraph.data = data
     }
 }
