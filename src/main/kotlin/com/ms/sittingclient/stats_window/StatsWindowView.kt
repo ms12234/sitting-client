@@ -285,7 +285,7 @@ class StatsWindowView : View("Statystki") {
     private fun downloadDataForOkToNotOkSittingGraph() {
         okToNotOkSittingDataDownload = OkToNotOkSittingDataDownload(
                 periodStartPicker.dateTimeValue, periodEndPicker.dateTimeValue,
-                measurementRepository, PieChartPercentageCalculator(),
+                measurementRepository, PieChartUtils(),
                 insertFakeData)
 
         okToNotOkSittingDataDownload.setOnSucceeded {
@@ -308,7 +308,8 @@ class StatsWindowView : View("Statystki") {
     private fun downloadDataForBreakToSittingGraph() {
         breakToSittingDataDownload = BreakToSittingDataDownload(
                 periodStartPicker.dateTimeValue,
-                periodEndPicker.dateTimeValue, measurementRepository, insertFakeData)
+                periodEndPicker.dateTimeValue, measurementRepository,
+                PieChartUtils(), insertFakeData)
 
         breakToSittingDataDownload.setOnSucceeded {
             runLater {

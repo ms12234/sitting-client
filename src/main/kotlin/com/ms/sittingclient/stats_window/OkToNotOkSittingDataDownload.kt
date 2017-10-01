@@ -10,8 +10,8 @@ import java.time.LocalDateTime
 class OkToNotOkSittingDataDownload(private val start: LocalDateTime,
                                    private val end: LocalDateTime,
                                    private val measurementRepository: MeasurementRepository,
-                                   private val pieChartPercentageCalculator:
-                                   PieChartPercentageCalculator,
+                                   private val pieChartUtils:
+                                   PieChartUtils,
                                    private val insertFakeData: Boolean)
     : Task<ObservableList<PieChart.Data>>() {
 
@@ -19,9 +19,9 @@ class OkToNotOkSittingDataDownload(private val start: LocalDateTime,
         updateProgress(0, 100)
 
         if (insertFakeData) {
-            return pieChartPercentageCalculator.calculate(returnFakeData())
+            return pieChartUtils.calculatePercentages(returnFakeData())
         } else {
-            return pieChartPercentageCalculator.calculate(returnRealData())
+            return pieChartUtils.calculatePercentages(returnRealData())
         }
     }
 
@@ -35,20 +35,10 @@ class OkToNotOkSittingDataDownload(private val start: LocalDateTime,
 
         val okMeasurementsCount = measurements.count { it.grade == 1.0F }
 
-        val data = createDataList(okMeasurementsCount, measurements.size)
+        val data = pieChartUtils.createDataList(okMeasurementsCount, measurements.size,
+                "Poprawne siedzenie", "Niepoprawne siedzenie")
 
         progress(100)
-        return data
-    }
-
-    private fun createDataList(okMeasurementsCount: Int, totalMeasurements: Int):
-            ObservableList<PieChart.Data> {
-
-        val data = FXCollections.observableArrayList<PieChart.Data>()
-        val okPercentage = okMeasurementsCount.toDouble() / totalMeasurements.toDouble()
-
-        data.add(PieChart.Data("Poprawne siedzenie", okPercentage))
-        data.add(PieChart.Data("Niepoprawne siedzenie", 1.0 - okPercentage))
         return data
     }
 
@@ -60,7 +50,8 @@ class OkToNotOkSittingDataDownload(private val start: LocalDateTime,
 
     private fun returnFakeData(): ObservableList<PieChart.Data> {
         progress(100)
-        return createDataList(87, 100)
+        return pieChartUtils.createDataList(87, 100,
+                "Poprawne siedzenie", "Niepoprawne siedzenie")
     }
 
     private fun progress(value: Long) {
