@@ -8,19 +8,20 @@ import javafx.concurrent.Task
 import javafx.scene.chart.*
 import javafx.scene.control.ProgressBar
 import javafx.scene.control.TabPane
-import javafx.scene.layout.HBox
 import javafx.scene.layout.VBox
 import javafx.scene.paint.Color
 import javafx.scene.paint.Paint
 import javafx.scene.shape.Rectangle
 import tornadofx.*
 import tornadofx.control.DateTimePicker
+import java.time.LocalDateTime
 
 class StatsWindowView : View("Statystki") {
+    private val insertFakeData: Boolean by di()
     private val measurementRepository: MeasurementRepository by di()
 
-    private var periodStartPicker: DateTimePicker by singleAssign()
-    private var periodEndPicker: DateTimePicker by singleAssign()
+    private var periodStartPicker: DateTimePicker = DateTimePicker()
+    private var periodEndPicker: DateTimePicker = DateTimePicker()
     private var progress: ProgressBar by singleAssign()
 
     private var graphParent: TabPane by singleAssign()
@@ -50,51 +51,99 @@ class StatsWindowView : View("Statystki") {
     private var heatMapBottom2: Rectangle by singleAssign()
 
     override val root = vbox {
+        addClass(MyStyle.default)
+
+        spacing = 30.0
+
         hbox {
-            label("Początek zakresu")
-            periodStartPicker = DateTimePicker()
-            add(periodStartPicker)
+            val topPadding = 5.px
+            spacing = 70.0
 
-            label("Koniec zakresu")
-            periodEndPicker = DateTimePicker()
-            add(periodEndPicker)
-
-            button("Pokaż") {
-                action {
-                    when (graphParent.selectionModel.selectedIndex) {
-                        0 -> downloadDataForDailySittingGraph()
-                        1 -> downloadDataForBreakToSittingGraph()
-                        2 -> downloadDataForOkToNotOkSittingGraph()
-                        3 -> downloadDataForHeatMapGraph()
+            hbox {
+                label("Początek zakresu") {
+                    style {
+                        padding = box(topPadding, 5.px, 0.px, 0.px)
                     }
                 }
+                periodStartPicker.dateTimeValue = LocalDateTime.now().minusDays(1)
+                add(periodStartPicker)
             }
-        }
 
-        progress = progressbar(100.0) {
-            visibleProperty().bind(progressProperty().isNotEqualTo(100))
+            hbox {
+                label("Koniec zakresu") {
+                    style {
+                        padding = box(topPadding, 5.px, 0.px, 0.px)
+                    }
+                }
+                periodEndPicker.dateTimeValue = LocalDateTime.now()
+                add(periodEndPicker)
+            }
+
+            hbox {
+                val width = 150.0
+
+                button("Pokaż") {
+                    minWidth = width
+
+                    action {
+                        when (graphParent.selectionModel.selectedIndex) {
+                            0 -> downloadDataForDailySittingGraph()
+                            1 -> downloadDataForBreakToSittingGraph()
+                            2 -> downloadDataForOkToNotOkSittingGraph()
+                            3 -> downloadDataForHeatMapGraph()
+                        }
+                    }
+                }
+
+                progress = progressbar(100.0) {
+                    minWidth = width
+                    minHeight = 34.0
+                    visibleProperty().bind(progressProperty().isNotEqualTo(100))
+                }
+            }
         }
 
         graphParent = tabpane {
             tabClosingPolicy = TabPane.TabClosingPolicy.UNAVAILABLE
+            val graphPadding = box(20.px, 0.px, 0.px, 0.px)
+            val graphScale = 1.3
 
             tab("Czas siedzenia") {
-                content = HBox().apply {
-                    dailySittingGraph = barchart("", CategoryAxis(), NumberAxis())
+                content = VBox().apply {
+                    dailySittingGraph = barchart("", CategoryAxis(),
+                            NumberAxis()) {
+                        scaleX = graphScale
+                        scaleY = graphScale
+                        style {
+                            padding = graphPadding
+                        }
+                    }
                 }
             }
 
             tab("Stosunek przerw do siedzenia") {
-                content = HBox().apply {
+                content = VBox().apply {
                     breakToSittingGraph = piechart("", FXCollections
-                            .observableArrayList())
+                            .observableArrayList()) {
+                        scaleX = graphScale
+                        scaleY = graphScale
+                        style {
+                            padding = graphPadding
+                        }
+                    }
                 }
             }
 
             tab("Stosunek poprawnego siedzenia do niepoprawnego") {
-                content = HBox().apply {
+                content = VBox().apply {
                     okToNotOkSittingGraph = piechart("", FXCollections
-                            .observableArrayList())
+                            .observableArrayList()) {
+                        scaleX = graphScale
+                        scaleY = graphScale
+                        style {
+                            padding = graphPadding
+                        }
+                    }
                 }
             }
 
@@ -196,20 +245,15 @@ class StatsWindowView : View("Statystki") {
             }
 
             style {
-                minWidth = 1000.px
-                minHeight = 900.px
+                minWidth = 1200.px
+                minHeight = 700.px
             }
-        }
-
-        style
-        {
-            addClass(MyStyle.default)
         }
     }
 
     private fun downloadDataForHeatMapGraph() {
         heatMapDataDownload = HeatMapDataDownload(periodStartPicker.dateTimeValue,
-                periodEndPicker.dateTimeValue, measurementRepository)
+                periodEndPicker.dateTimeValue, measurementRepository, insertFakeData)
 
         heatMapDataDownload.setOnSucceeded {
             runLater {
@@ -241,7 +285,8 @@ class StatsWindowView : View("Statystki") {
     private fun downloadDataForOkToNotOkSittingGraph() {
         okToNotOkSittingDataDownload = OkToNotOkSittingDataDownload(
                 periodStartPicker.dateTimeValue, periodEndPicker.dateTimeValue,
-                measurementRepository)
+                measurementRepository, PieChartPercentageCalculator(),
+                insertFakeData)
 
         okToNotOkSittingDataDownload.setOnSucceeded {
             runLater {
@@ -263,7 +308,7 @@ class StatsWindowView : View("Statystki") {
     private fun downloadDataForBreakToSittingGraph() {
         breakToSittingDataDownload = BreakToSittingDataDownload(
                 periodStartPicker.dateTimeValue,
-                periodEndPicker.dateTimeValue, measurementRepository)
+                periodEndPicker.dateTimeValue, measurementRepository, insertFakeData)
 
         breakToSittingDataDownload.setOnSucceeded {
             runLater {
@@ -285,7 +330,8 @@ class StatsWindowView : View("Statystki") {
     private fun downloadDataForDailySittingGraph() {
         dailySittingDataDownload =
                 DailySittingDataDownload(periodStartPicker.dateTimeValue,
-                        periodEndPicker.dateTimeValue, measurementRepository)
+                        periodEndPicker.dateTimeValue, measurementRepository,
+                        insertFakeData)
 
         dailySittingDataDownload.setOnSucceeded {
             runLater {

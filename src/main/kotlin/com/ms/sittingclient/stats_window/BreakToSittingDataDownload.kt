@@ -7,7 +7,7 @@ import javafx.concurrent.Task
 import javafx.scene.chart.PieChart
 import java.time.LocalDateTime
 
-class BreakToSittingDataDownload(start: LocalDateTime, end: LocalDateTime, measurementRepository: MeasurementRepository)
+class BreakToSittingDataDownload(start: LocalDateTime, end: LocalDateTime, measurementRepository: MeasurementRepository, insertFakeData: Boolean)
     : Task<ObservableList<PieChart.Data>>() {
 
     override fun call(): ObservableList<PieChart.Data> {

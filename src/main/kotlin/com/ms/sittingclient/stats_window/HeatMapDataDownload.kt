@@ -6,7 +6,7 @@ import javafx.scene.paint.Paint
 import java.time.LocalDateTime
 
 class HeatMapDataDownload(start: LocalDateTime, end: LocalDateTime,
-                          measurementRepository: MeasurementRepository) :
+                          measurementRepository: MeasurementRepository, insertFakeData: Boolean) :
         Task<List<Paint>>() {
 
     override fun call(): List<Paint> {

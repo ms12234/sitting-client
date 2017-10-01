@@ -7,7 +7,7 @@ import javafx.concurrent.Task
 import javafx.scene.chart.XYChart
 import java.time.LocalDateTime
 
-class DailySittingDataDownload(start: LocalDateTime, end: LocalDateTime, measurementRepository: MeasurementRepository) :
+class DailySittingDataDownload(start: LocalDateTime, end: LocalDateTime, measurementRepository: MeasurementRepository, insertFakeData: Boolean) :
         Task<ObservableList<XYChart.Series<String, Number>>>() {
 
     override fun call(): ObservableList<XYChart.Series<String, Number>> {
