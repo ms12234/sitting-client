@@ -26,8 +26,10 @@ class BreakToSittingDataDownload(private val start: LocalDateTime,
 
     private fun returnRealData(): ObservableList<PieChart.Data> {
         val measurements = measurementRepository.getMeasurements(start, end)
+        progress(90)
+
         if (measurements.isEmpty()) {
-            //TODO return
+            return returnEmptyData()
         }
 
         val breakMeasurementsCount = measurements.count {
@@ -35,7 +37,16 @@ class BreakToSittingDataDownload(private val start: LocalDateTime,
             true
         }
 
-        return FXCollections.observableArrayList()
+        val data = pieChartUtils.createDataList(breakMeasurementsCount,
+                measurements.size, "Czas przerw", "Czas siedzenia")
+        progress(100)
+        return data
+    }
+
+    private fun returnEmptyData(): ObservableList<PieChart.Data> {
+        progress(100)
+        return FXCollections.observableArrayList(PieChart.Data("Brak " +
+                "danych", 1.0))
     }
 
     private fun returnFakeData(): ObservableList<PieChart.Data> {

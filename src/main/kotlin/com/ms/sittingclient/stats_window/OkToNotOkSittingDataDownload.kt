@@ -16,7 +16,7 @@ class OkToNotOkSittingDataDownload(private val start: LocalDateTime,
     : Task<ObservableList<PieChart.Data>>() {
 
     override fun call(): ObservableList<PieChart.Data> {
-        updateProgress(0, 100)
+        progress(0)
 
         if (insertFakeData) {
             return pieChartUtils.calculatePercentages(returnFakeData())
@@ -27,7 +27,7 @@ class OkToNotOkSittingDataDownload(private val start: LocalDateTime,
 
     private fun returnRealData(): ObservableList<PieChart.Data> {
         val measurements = measurementRepository.getMeasurements(start, end)
-        progress(0)
+        progress(90)
 
         if (measurements.isEmpty()) {
             return returnEmptyData()

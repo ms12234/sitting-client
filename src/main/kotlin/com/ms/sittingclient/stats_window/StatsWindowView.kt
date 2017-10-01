@@ -110,10 +110,13 @@ class StatsWindowView : View("Statystki") {
 
             tab("Czas siedzenia") {
                 content = VBox().apply {
-                    dailySittingGraph = barchart("", CategoryAxis(),
-                            NumberAxis()) {
-                        scaleX = graphScale
-                        scaleY = graphScale
+                    val yAxis = NumberAxis()
+                    yAxis.label = "Godz."
+
+                    val xAxis = CategoryAxis()
+                    xAxis.animated = false
+
+                    dailySittingGraph = barchart("", xAxis, yAxis) {
                         style {
                             padding = graphPadding
                         }
