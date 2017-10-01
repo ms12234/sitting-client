@@ -26,7 +26,7 @@ class StatsWindowView : View("Statystki") {
 
     private var graphParent: TabPane by singleAssign()
 
-    private var dailySittingGraph: BarChart<String, Number> by singleAssign()
+    private var dailySittingGraph: LineChart<String, Number> by singleAssign()
     private lateinit var dailySittingDataDownload:
             Task<ObservableList<XYChart.Series<String, Number>>>
 
@@ -116,7 +116,7 @@ class StatsWindowView : View("Statystki") {
                     val xAxis = CategoryAxis()
                     xAxis.animated = false
 
-                    dailySittingGraph = barchart("", xAxis, yAxis) {
+                    dailySittingGraph = linechart("", xAxis, yAxis) {
                         style {
                             padding = graphPadding
                         }
