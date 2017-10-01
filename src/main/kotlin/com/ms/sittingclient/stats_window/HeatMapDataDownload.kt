@@ -34,6 +34,7 @@ class HeatMapDataDownload(private val start: LocalDateTime,
         val okSittingAndTotalSitting = createListForCounting()
         fillCountingList(measurements, okSittingAndTotalSitting)
 
+        updateProgress(100, 100)
         return okSittingAndTotalSitting.map { RectangleShade().assign(it.ok, it.total) }
     }
 
@@ -77,6 +78,8 @@ class HeatMapDataDownload(private val start: LocalDateTime,
         values.add(rectangleShader.assign(95, 100))
         values.add(rectangleShader.assign(94, 100))
         values.add(rectangleShader.assign(80, 100))
+
+        updateProgress(100, 100)
         return values
     }
 }

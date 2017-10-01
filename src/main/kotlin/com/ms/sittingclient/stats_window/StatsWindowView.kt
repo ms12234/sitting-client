@@ -152,95 +152,155 @@ class StatsWindowView : View("Statystki") {
 
             tab("Mapa czujników") {
                 content = VBox().apply {
+                    style {
+                        padding = box(20.px, 0.px, 0.px, 300.px)
+                    }
+
                     val groupWidth = 360.0
-                    val groupHeight = 450.0
+                    val groupHeight = 350.0
 
                     val width = 100.0
                     val horizontalSpace = 15.0
-                    val verticalSpace = 230
+                    val verticalSpace = 135
                     val arc = 10.0
 
-                    vbox {
-                        group {
-                            rectangle(0, 0, groupWidth, groupHeight) {
-                                fill = Color.TRANSPARENT
-                                stroke = Color.BLACK
-                                arcWidth = arc
-                                arcHeight = arc
+                    hbox {
+                        spacing = 50.0
 
-                                heatMapTop0 = rectangle(horizontalSpace,
-                                        horizontalSpace,
-                                        width, width) {
+                        vbox {
+                            group {
+                                rectangle(0, 0, groupWidth, groupHeight) {
+                                    fill = Color.TRANSPARENT
+                                    stroke = Color.BLACK
                                     arcWidth = arc
                                     arcHeight = arc
+
+                                    heatMapTop0 = rectangle(horizontalSpace,
+                                            horizontalSpace,
+                                            width, width) {
+                                        arcWidth = arc
+                                        arcHeight = arc
+                                    }
+
+                                    heatMapTop1 = rectangle(width + 2 * horizontalSpace,
+                                            horizontalSpace,
+                                            width, width) {
+                                        arcWidth = arc
+                                        arcHeight = arc
+                                    }
+
+                                    heatMapTop2 = rectangle(width * 2 + 3 * horizontalSpace,
+                                            horizontalSpace,
+                                            width, width) {
+                                        arcWidth = arc
+                                        arcHeight = arc
+                                    }
+
+                                    heatMapMiddle0 = rectangle(horizontalSpace,
+                                            verticalSpace + width,
+                                            width, width) {
+                                        arcWidth = arc
+                                        arcHeight = arc
+                                    }
+
+                                    heatMapMiddle1 = rectangle(width +
+                                            horizontalSpace * 2,
+                                            verticalSpace + width,
+                                            width, width) {
+                                        arcWidth = arc
+                                        arcHeight = arc
+                                    }
+
+                                    heatMapMiddle2 = rectangle(2 * width + 3 * horizontalSpace,
+                                            verticalSpace + width,
+                                            width, width) {
+                                        arcWidth = arc
+                                        arcHeight = arc
+                                    }
                                 }
+                            }
 
-                                heatMapTop1 = rectangle(width + 2 * horizontalSpace,
-                                        horizontalSpace,
-                                        width, width) {
+                            group {
+                                rectangle(0, 0, groupWidth, groupHeight / 2) {
+                                    fill = Color.TRANSPARENT
+                                    stroke = Color.BLACK
                                     arcWidth = arc
                                     arcHeight = arc
-                                }
+                                    val y = 60.0
 
-                                heatMapTop2 = rectangle(width * 2 + 3 * horizontalSpace,
-                                        horizontalSpace,
-                                        width, width) {
-                                    arcWidth = arc
-                                    arcHeight = arc
-                                }
+                                    heatMapBottom0 = rectangle(horizontalSpace,
+                                            y,
+                                            width, width) {
+                                        arcWidth = arc
+                                        arcHeight = arc
+                                    }
 
-                                heatMapMiddle0 = rectangle(horizontalSpace,
-                                        verticalSpace + width,
-                                        width, width) {
-                                    arcWidth = arc
-                                    arcHeight = arc
-                                }
+                                    heatMapBottom1 = rectangle(2 * horizontalSpace + width,
+                                            y,
+                                            width, width) {
+                                        arcWidth = arc
+                                        arcHeight = arc
+                                    }
 
-                                heatMapMiddle1 = rectangle(width +
-                                        horizontalSpace * 2,
-                                        verticalSpace + width,
-                                        width, width) {
-                                    arcWidth = arc
-                                    arcHeight = arc
-                                }
-
-                                heatMapMiddle2 = rectangle(2 * width + 3 * horizontalSpace,
-                                        verticalSpace + width,
-                                        width, width) {
-                                    arcWidth = arc
-                                    arcHeight = arc
+                                    heatMapBottom2 = rectangle(3 * horizontalSpace + 2 * width,
+                                            y,
+                                            width, width) {
+                                        arcWidth = arc
+                                        arcHeight = arc
+                                    }
                                 }
                             }
                         }
 
-                        group {
-                            rectangle(0, 0, groupWidth, groupHeight / 2) {
-                                fill = Color.TRANSPARENT
-                                stroke = Color.BLACK
-                                arcWidth = arc
-                                arcHeight = arc
-                                val y = width + horizontalSpace / 2
+                        gridpane {
+                            style {
+                                padding = box(50.px, 0.px, 0.px, 0.px)
+                            }
 
-                                heatMapBottom0 = rectangle(horizontalSpace,
-                                        y,
-                                        width, width) {
-                                    arcWidth = arc
-                                    arcHeight = arc
+                            hgap = 15.0
+                            vgap = 10.0
+
+                            val legendWidth = width / 2
+                            val rectangleShade = RectangleShade()
+
+                            row {
+                                rectangle(0, 0, legendWidth, legendWidth) {
+                                    fill = rectangleShade.assign(91, 100)
                                 }
 
-                                heatMapBottom1 = rectangle(2 * horizontalSpace + width,
-                                        y,
-                                        width, width) {
-                                    arcWidth = arc
-                                    arcHeight = arc
+                                label("90%-100%")
+                            }
+
+                            row {
+                                rectangle(0, 0, legendWidth, legendWidth) {
+                                    fill = rectangleShade.assign(88, 100)
                                 }
 
-                                heatMapBottom2 = rectangle(3 * horizontalSpace + 2 * width,
-                                        y,
-                                        width, width) {
-                                    arcWidth = arc
-                                    arcHeight = arc
+                                label("80%-89%")
+                            }
+
+                            row {
+                                rectangle(0, 0, legendWidth, legendWidth) {
+                                    fill = rectangleShade.assign(78, 100)
                                 }
+
+                                label("70-79%")
+                            }
+
+                            row {
+                                rectangle(0, 0, legendWidth, legendWidth) {
+                                    fill = rectangleShade.assign(68, 100)
+                                }
+
+                                label("60%-69%")
+                            }
+
+                            row {
+                                rectangle(0, 0, legendWidth, legendWidth) {
+                                    fill = rectangleShade.assign(45, 100)
+                                }
+
+                                label("0%-59%")
                             }
                         }
                     }
@@ -249,7 +309,7 @@ class StatsWindowView : View("Statystki") {
 
             style {
                 minWidth = 1200.px
-                minHeight = 700.px
+                minHeight = 530.px
             }
         }
     }
