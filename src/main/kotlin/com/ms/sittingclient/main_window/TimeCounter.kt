@@ -14,7 +14,7 @@ class TimeCounter(private val settingsIo: SettingsIo) : TimerTask() {
     private var currentSeconds: AtomicInteger = AtomicInteger(0)
     private var breakTime: AtomicInteger = AtomicInteger(0)
     private var workTime: AtomicInteger = AtomicInteger(0)
-    private var currentPeriod = CurrentPeriod.WORK
+    var currentPeriod = CurrentPeriod.WORK
 
     val currentPeriodName: SimpleStringProperty = SimpleStringProperty("")
     val nextPeriodName: SimpleStringProperty = SimpleStringProperty("")

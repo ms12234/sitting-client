@@ -95,10 +95,18 @@ class MainWindowView : View("Podsumowanie"), MeasurementObserver {
     }
 
     override fun onNext(measurement: Measurement) {
-        if (measurement.grade == 1.0F) {
-            statusImageView.image = okImage
+        if (timeCounter.currentPeriod == CurrentPeriod.WORK) {
+            if (measurement.grade == 1.0F) {
+                statusImageView.image = okImage
+            } else {
+                statusImageView.image = notOkImage
+            }
         } else {
-            statusImageView.image = notOkImage
+            if (measurement.grade == -1.0F) {
+                statusImageView.image = okImage
+            } else {
+                statusImageView.image = notOkImage
+            }
         }
     }
 
