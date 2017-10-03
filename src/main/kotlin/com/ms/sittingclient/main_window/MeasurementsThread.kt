@@ -25,13 +25,13 @@ class MeasurementsThread(private val repository: MeasurementRepository,
                         LocalDateTime.now()))
             } catch (e: Exception) {
                 logger.warning("Could not connect to server")
-                informAboutError(Error.COULD_NOT_CONNECT)
+                informAboutError()
                 continue
             }
 
             if (measurementsFromLastSeconds.size == 0) {
                 logger.warning("No measurements in last seconds")
-                informAboutError(Error.NO_MEASUREMENTS_IN_LAST_SECONDS)
+                informAboutError()
                 continue
             }
 
@@ -44,8 +44,8 @@ class MeasurementsThread(private val repository: MeasurementRepository,
         }
     }
 
-    private fun informAboutError(error: Error) {
-        Platform.runLater { observer.onError(error) }
+    private fun informAboutError() {
+        Platform.runLater { observer.onError() }
 
         waitForNextRefresh()
     }

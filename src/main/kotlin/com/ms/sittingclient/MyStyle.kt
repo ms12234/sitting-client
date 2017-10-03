@@ -18,7 +18,7 @@ class MyStyle : Stylesheet() {
         default {
             padding = box(30.px)
             fontSize = defaultFontSize
-            //TODO add white background
+            backgroundColor += c(255, 255, 255)
         }
 
         gridSpace {

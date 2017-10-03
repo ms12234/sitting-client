@@ -7,9 +7,9 @@ import java.nio.file.Path
 class SettingsIo(private val pathToFile: Path) {
     private val gson = GsonBuilder().setPrettyPrinting().create()
 
-    fun read(): Settings? {
+    fun read(): Settings {
         if (fileNotExists()) {
-            return null
+            return Settings(5, 0, 50, 0)
         }
 
         val json = String(Files.readAllBytes(pathToFile))
