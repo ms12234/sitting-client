@@ -8,7 +8,6 @@ import javafx.concurrent.Task
 import javafx.scene.chart.XYChart
 import java.time.LocalDate
 import java.time.LocalDateTime
-import java.time.temporal.ChronoUnit
 
 class DailySittingDataDownload(private val start: LocalDateTime,
                                private val end: LocalDateTime,
@@ -53,7 +52,10 @@ class DailySittingDataDownload(private val start: LocalDateTime,
     private fun calculateSittingTimeForEachDay(measurements: List<Measurement>):
             List<Pair<LocalDate, Int>> {
 
-        val uniqueDays = measurements.map { it.time.toLocalDate() }.distinct()
+        val uniqueDays = measurements
+                .map { it.time.toLocalDate() }
+                .sortedBy { it }
+                .distinct()
         val daysWithCalculatedSittingTimes = mutableListOf<Pair<LocalDate, Int>>()
 
         uniqueDays.forEach { uniqueDay ->
@@ -66,34 +68,28 @@ class DailySittingDataDownload(private val start: LocalDateTime,
         return daysWithCalculatedSittingTimes
     }
 
-    private fun daysBetweenEarliestAndLatest(measurements: List<Measurement>): Int {
-        val earliestDate = measurements.minBy { it.time }!!.time.toLocalDate()
-        val latestDate = measurements.maxBy { it.time }!!.time.toLocalDate()
-        return ChronoUnit.DAYS.between(earliestDate, latestDate).toInt()
-    }
-
     private fun returnFakeData(): ObservableList<XYChart.Series<String, Number>> {
         val data = XYChart.Series<String, Number>()
         data.name = "Ilość siedzenia w ciągu dnia"
-        data.data.add(XYChart.Data(LocalDate.now().minusDays(0).toString(),
-                8.4))
-        data.data.add(XYChart.Data(LocalDate.now().minusDays(1).toString(),
-                9.1))
-        data.data.add(XYChart.Data(LocalDate.now().minusDays(2).toString(),
-                2.4))
-        data.data.add(XYChart.Data(LocalDate.now().minusDays(3).toString(),
-                3))
-        data.data.add(XYChart.Data(LocalDate.now().minusDays(4).toString(),
-                3.5))
-        data.data.add(XYChart.Data(LocalDate.now().minusDays(5).toString(),
-                1.2))
-        data.data.add(XYChart.Data(LocalDate.now().minusDays(6).toString(),
-                2.7))
-        data.data.add(XYChart.Data(LocalDate.now().minusDays(7).toString(),
-                10.9))
-        data.data.add(XYChart.Data(LocalDate.now().minusDays(8).toString(),
-                8.8))
         data.data.add(XYChart.Data(LocalDate.now().minusDays(9).toString(),
+                8.4))
+        data.data.add(XYChart.Data(LocalDate.now().minusDays(8).toString(),
+                9.1))
+        data.data.add(XYChart.Data(LocalDate.now().minusDays(7).toString(),
+                2.4))
+        data.data.add(XYChart.Data(LocalDate.now().minusDays(6).toString(),
+                3))
+        data.data.add(XYChart.Data(LocalDate.now().minusDays(5).toString(),
+                3.5))
+        data.data.add(XYChart.Data(LocalDate.now().minusDays(4).toString(),
+                1.2))
+        data.data.add(XYChart.Data(LocalDate.now().minusDays(3).toString(),
+                2.7))
+        data.data.add(XYChart.Data(LocalDate.now().minusDays(2).toString(),
+                10.9))
+        data.data.add(XYChart.Data(LocalDate.now().minusDays(1).toString(),
+                8.8))
+        data.data.add(XYChart.Data(LocalDate.now().minusDays(0).toString(),
                 2.4))
         updateProgress(100, 100)
         return FXCollections.observableArrayList(data)
