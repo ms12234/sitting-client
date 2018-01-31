@@ -1,6 +1,6 @@
 package com.ms.sittingclient.stats_window
 
-import com.ms.sittingclient.repository.MeasurementRepository
+import com.ms.sittingclient.repository.Repository
 import javafx.collections.FXCollections
 import javafx.collections.ObservableList
 import javafx.concurrent.Task
@@ -9,7 +9,7 @@ import java.time.LocalDateTime
 
 class BreakToSittingDataDownload(private val start: LocalDateTime,
                                  private val end: LocalDateTime,
-                                 private val measurementRepository: MeasurementRepository,
+                                 private val measurementRepository: Repository,
                                  private val pieChartUtils: PieChartUtils,
                                  private val insertFakeData: Boolean)
     : Task<ObservableList<PieChart.Data>>() {
@@ -33,7 +33,7 @@ class BreakToSittingDataDownload(private val start: LocalDateTime,
         }
 
         val breakMeasurementsCount = measurements.count {
-            it.sensors.filter { it.value == 0.0F }.forEach { false }
+            it.sensors.filter { it.value == 0.0 }.forEach { false }
             true
         }
 

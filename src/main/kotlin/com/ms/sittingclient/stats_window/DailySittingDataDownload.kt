@@ -1,7 +1,7 @@
 package com.ms.sittingclient.stats_window
 
 import com.ms.sittingclient.repository.Measurement
-import com.ms.sittingclient.repository.MeasurementRepository
+import com.ms.sittingclient.repository.Repository
 import javafx.collections.FXCollections
 import javafx.collections.ObservableList
 import javafx.concurrent.Task
@@ -11,7 +11,7 @@ import java.time.LocalDateTime
 
 class DailySittingDataDownload(private val start: LocalDateTime,
                                private val end: LocalDateTime,
-                               private val measurementRepository: MeasurementRepository,
+                               private val measurementRepository: Repository,
                                private val insertFakeData: Boolean) :
         Task<ObservableList<XYChart.Series<String, Number>>>() {
 
@@ -52,18 +52,18 @@ class DailySittingDataDownload(private val start: LocalDateTime,
     private fun calculateSittingTimeForEachDay(measurements: List<Measurement>):
             List<Pair<LocalDate, Int>> {
 
-        val uniqueDays = measurements
-                .map { it.time.toLocalDate() }
-                .sortedBy { it }
-                .distinct()
+//        val uniqueDays = measurements
+//                .map { it.time.toLocalDate() }
+//                .sortedBy { it }
+//                .distinct()
         val daysWithCalculatedSittingTimes = mutableListOf<Pair<LocalDate, Int>>()
 
-        uniqueDays.forEach { uniqueDay ->
-            val sittingSecondsInThisDay = measurements.count {
-                uniqueDay.isEqual(it.time.toLocalDate())
-            }
-            daysWithCalculatedSittingTimes.add(Pair(uniqueDay, sittingSecondsInThisDay))
-        }
+//        uniqueDays.forEach { uniqueDay ->
+//            val sittingSecondsInThisDay = measurements.count {
+//                uniqueDay.isEqual(it.time.toLocalDate())
+//            }
+//            daysWithCalculatedSittingTimes.add(Pair(uniqueDay, sittingSecondsInThisDay))
+//        }
 
         return daysWithCalculatedSittingTimes
     }

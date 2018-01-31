@@ -1,6 +1,6 @@
 package com.ms.sittingclient.stats_window
 
-import com.ms.sittingclient.repository.MeasurementRepository
+import com.ms.sittingclient.repository.Repository
 import javafx.collections.FXCollections
 import javafx.collections.ObservableList
 import javafx.concurrent.Task
@@ -9,7 +9,7 @@ import java.time.LocalDateTime
 
 class OkToNotOkSittingDataDownload(private val start: LocalDateTime,
                                    private val end: LocalDateTime,
-                                   private val measurementRepository: MeasurementRepository,
+                                   private val measurementRepository: Repository,
                                    private val pieChartUtils:
                                    PieChartUtils,
                                    private val insertFakeData: Boolean)

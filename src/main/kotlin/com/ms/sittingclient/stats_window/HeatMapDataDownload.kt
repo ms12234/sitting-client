@@ -1,7 +1,7 @@
 package com.ms.sittingclient.stats_window
 
 import com.ms.sittingclient.repository.Measurement
-import com.ms.sittingclient.repository.MeasurementRepository
+import com.ms.sittingclient.repository.Repository
 import javafx.concurrent.Task
 import javafx.scene.paint.Color
 import javafx.scene.paint.Paint
@@ -10,7 +10,7 @@ import java.time.LocalDateTime
 
 class HeatMapDataDownload(private val start: LocalDateTime,
                           private val end: LocalDateTime,
-                          private val measurementRepository: MeasurementRepository,
+                          private val measurementRepository: Repository,
                           private val insertFakeData: Boolean) :
         Task<List<Paint>>() {
 

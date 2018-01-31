@@ -1,10 +1,15 @@
 package com.ms.sittingclient.repository
 
-import java.time.LocalDateTime
 
-data class Measurement(var time: LocalDateTime,
+import com.fasterxml.jackson.annotation.JsonFormat
+import java.util.*
+
+data class Measurement(var id: String,
+                       @JsonFormat(pattern =
+                       "yyyy-MM-dd'T'HH:mm:ss.SSS", timezone = "GMT+1") var time:
+                       Date,
                        var sensors: List<Sensor>,
                        var grade: Float) {
 
-    constructor() : this(LocalDateTime.now(), emptyList(), 0F)
+    constructor() : this("", Date(), emptyList(), 0F)
 }

@@ -2,8 +2,8 @@ package com.ms.sittingclient.repository
 
 import feign.Feign
 import feign.Logger
-import feign.gson.GsonDecoder
-import feign.gson.GsonEncoder
+import feign.jackson.JacksonDecoder
+import feign.jackson.JacksonEncoder
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 
@@ -13,10 +13,11 @@ class FeignConfiguration {
     @Bean
     fun getRepository(): MeasurementRepository {
         return Feign.builder()
-                .encoder(GsonEncoder())
-                .decoder(GsonDecoder())
+                .encoder(JacksonEncoder())
+                .decoder(JacksonDecoder())
                 .logger(Logger.JavaLogger())
                 .logLevel(Logger.Level.BASIC)
-                .target(MeasurementRepository::class.java, "http://localhost:8080")
+                .target(MeasurementRepository::class.java, "http://192" +
+                        ".168.0.105:8080")
     }
 }

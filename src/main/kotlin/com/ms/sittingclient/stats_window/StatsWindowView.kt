@@ -1,7 +1,7 @@
 package com.ms.sittingclient.stats_window
 
 import com.ms.sittingclient.MyStyle
-import com.ms.sittingclient.repository.MeasurementRepository
+import com.ms.sittingclient.repository.Repository
 import javafx.collections.FXCollections
 import javafx.collections.ObservableList
 import javafx.concurrent.Task
@@ -18,7 +18,7 @@ import java.time.LocalDateTime
 
 class StatsWindowView : View("Statystki") {
     private val insertFakeData: Boolean by di()
-    private val measurementRepository: MeasurementRepository by di()
+    private val measurementRepository: Repository by di()
 
     private var periodStartPicker: DateTimePicker = DateTimePicker()
     private var periodEndPicker: DateTimePicker = DateTimePicker()

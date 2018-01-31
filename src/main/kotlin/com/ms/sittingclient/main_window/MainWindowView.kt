@@ -2,7 +2,7 @@ package com.ms.sittingclient.main_window
 
 import com.ms.sittingclient.MyStyle
 import com.ms.sittingclient.repository.Measurement
-import com.ms.sittingclient.repository.MeasurementRepository
+import com.ms.sittingclient.repository.Repository
 import com.ms.sittingclient.settings_window.SettingsWindowView
 import com.ms.sittingclient.stats_window.StatsWindowView
 import javafx.scene.control.Label
@@ -15,7 +15,7 @@ import java.util.concurrent.ExecutorService
 
 class MainWindowView : View("Podsumowanie"), MeasurementObserver {
     private val executorService: ExecutorService by di()
-    private val repository: MeasurementRepository by di()
+    private val repository: Repository by di()
     private val timeCounter: TimeCounter by di()
 
     private val okImage = resources.image("/okImage.png")
@@ -102,12 +102,17 @@ class MainWindowView : View("Podsumowanie"), MeasurementObserver {
                 statusImageView.image = notOkImage
             }
         } else {
-            if (measurement.grade == -1.0F) {
-                statusImageView.image = okImage
-            } else {
+            if (isAnyTouched(measurement)) {
                 statusImageView.image = notOkImage
+            } else {
+                statusImageView.image = okImage
             }
         }
+    }
+
+    private fun isAnyTouched(measurement: Measurement): Boolean {
+        val touching = measurement.sensors.filter { it.value == 1.0 }
+        return touching.isNotEmpty()
     }
 
     init {
