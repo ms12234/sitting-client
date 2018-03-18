@@ -11,9 +11,4 @@ open class MainConfig {
     fun getSettingsIo(): SettingsIo {
         return SettingsIo(Paths.get("settings.json"))
     }
-
-    @Bean
-    fun insertFakeData(): Boolean {
-        return true
-    }
 }

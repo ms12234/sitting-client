@@ -23,8 +23,8 @@ class TimeCounter(private val settingsIo: SettingsIo) : TimerTask() {
 
     fun init() {
         val settings = settingsIo.read()
-        breakTime.set(settings.breakMinutes * 60 + settings.breakSeconds)
-        workTime.set(settings.workMinutes * 60 + settings.workSeconds)
+        breakTime.set(10 * 60 + 10)
+        workTime.set(10 * 60 + 10)
         updatePeriod()
         val timer = Timer(true)
         timer.scheduleAtFixedRate(this, 0, 1000)

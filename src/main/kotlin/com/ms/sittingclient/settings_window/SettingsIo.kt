@@ -9,7 +9,7 @@ class SettingsIo(private val pathToFile: Path) {
 
     fun read(): Settings {
         if (fileNotExists()) {
-            return Settings(5, 0, 50, 0)
+            return Settings()
         }
 
         val json = String(Files.readAllBytes(pathToFile))

@@ -4,7 +4,6 @@ import com.ms.sittingclient.MyStyle
 import com.ms.sittingclient.repository.Measurement
 import com.ms.sittingclient.repository.Repository
 import com.ms.sittingclient.settings_window.SettingsWindowView
-import com.ms.sittingclient.stats_window.StatsWindowView
 import javafx.scene.control.Label
 import javafx.scene.control.ProgressBar
 import javafx.scene.image.ImageView
@@ -40,10 +39,6 @@ class MainWindowView : View("Podsumowanie"), MeasurementObserver {
                     fitHeight = size
                     fitWidth = size
                 }
-            }
-
-            button("Statystki").action {
-                find<StatsWindowView>().openModal()
             }
         }
 
